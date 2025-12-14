@@ -2,7 +2,7 @@ name: Daily Commit Automation
 
 on:
   schedule:
-    - cron: "30 4 * * *""  # RuRuns every day at 4:30 AM UTC (10 AM IST)
+    - cron: "30 4 * * *"" 
   workflow_dispatch:
 
 permissions:
