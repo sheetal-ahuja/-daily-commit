@@ -2,11 +2,11 @@ name: Daily Commit Automation
 
 on:
   schedule:
-    - cron: "30 4 * * *""  # Runs every day at 4:30 AM UTC (10 AM IST) 
+    - cron: "30 4 * * *"   # Runs daily at 04:30 UTC
   workflow_dispatch:
 
 permissions:
-  contents: write   # ✅ allows the workflow to push commits
+  contents: write
 
 jobs:
   auto-commit:
@@ -15,14 +15,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Update Timestamp File
-        run: echo "Last updated on $(date)" > last_updated.txt
+        run: echo "Last updated on $(date -u)" > last_updated.txt
 
       - name: Commit and Push Changes
         run: |
           git config user.name "Sheetal Ahuja"
-          git config user.email "sheetal-ahuja@users.noreply.github.com"m"
+          git config user.email "sheetal-ahuja@users.noreply.github.com"
+
           git add last_updated.txt
-          git commit -m "🤖 Automated commit on $(date)" || echo "No changes to commit"
+          git commit -m "🤖 Automated commit on $(date -u)" || echo "No changes to commit"
           git push
